@@ -1,13 +1,14 @@
 import { useState } from "react";
 
 export default function Login({ setIsLoggedIn }) {
+  const API = import.meta.env.VITE_API_URL;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("http://127.0.0.1:8000/api/login", {
+    const res = await fetch(`${API}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -1,5 +1,15 @@
 export default function Dashboard({ setIsLoggedIn }) {
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    const API = import.meta.env.VITE_API_URL;
+    const token = localStorage.getItem("token");
+
+    await fetch(`${API}/logout`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
     localStorage.removeItem("token");
     setIsLoggedIn(false);
   };
