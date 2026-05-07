@@ -88,6 +88,47 @@ React
 JavaScript
 
 
+---
 
+## Tailwind CSS Setup
+
+* 1. Install Tailwind CSS
+```text
+npm install -D tailwindcss@3.4.1 postcss autoprefixer
+```
+
+* 2. Initialize Tailwind
+```text
+npx tailwindcss init -p
+```
+
+* 3. Update `tailwind.config.js`
+```js
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,jsx}"
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+```
+
+* 4. Update `src/index.css`
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+* 5. Ensure CSS import exists in `src/main.jsx`
+```js
+import './index.css'
+```
+
+---
 
 
