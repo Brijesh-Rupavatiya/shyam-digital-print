@@ -1,6 +1,13 @@
+import { useState } from "react";
+
 export default function Dashboard({ setIsLoggedIn }) {
+  const API = import.meta.env.VITE_API_URL;
+
+  const [loading, setLoading] = useState(false);
+
   const handleLogout = async () => {
-    const API = import.meta.env.VITE_API_URL;
+    setLoading(true);
+
     const token = localStorage.getItem("token");
 
     await fetch(`${API}/logout`, {
@@ -11,7 +18,10 @@ export default function Dashboard({ setIsLoggedIn }) {
     });
 
     localStorage.removeItem("token");
+
     setIsLoggedIn(false);
+
+    setLoading(false);
   };
 
   return (
@@ -20,9 +30,10 @@ export default function Dashboard({ setIsLoggedIn }) {
 
       <button
         onClick={handleLogout}
+        disabled={loading}
         className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
       >
-        Logout
+        {loading ? "Logging out..." : "Logout"}
       </button>
     </div>
   );
