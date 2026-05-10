@@ -4,26 +4,35 @@ export default function Login({ setIsLoggedIn }) {
   const API = import.meta.env.VITE_API_URL;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const res = await fetch(`${API}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
+    setLoading(true);
 
-    const data = await res.json();
+    try {
+      const res = await fetch(`${API}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    if (res.ok) {
-      localStorage.setItem("token", data.token);
-      setIsLoggedIn(true);
-    } else {
-      alert(data.message);
+      const data = await res.json();
+
+      if (res.ok) {
+        localStorage.setItem("token", data.token);
+        setIsLoggedIn(true);
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error(error);
     }
+
+    setLoading(false);
   };
 
   return (
@@ -52,8 +61,11 @@ export default function Login({ setIsLoggedIn }) {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button className="w-full py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold shadow-lg hover:scale-105 hover:shadow-2xl transition duration-300">
-          Login
+        <button
+          disabled={loading}
+          className="w-full py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold shadow-lg hover:scale-105 hover:shadow-2xl transition duration-300"
+        >
+          {loading ? "Logging in..." : "Login"}
         </button>
       </form>
     </div>
