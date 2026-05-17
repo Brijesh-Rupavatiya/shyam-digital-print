@@ -1,11 +1,11 @@
 import { useState } from "react";
-import Navbar from "./components/Navbar";
+
 import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
 
-function App() {
-  const API = import.meta.env.VITE_API_URL;
+import API from "./api/axios";
 
+function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("token") ? true : false,
   );
@@ -15,14 +15,11 @@ function App() {
   const handleLogout = async () => {
     setLoading(true);
 
-    const token = localStorage.getItem("token");
-
-    await fetch(`${API}/logout`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      await API.post("/logout");
+    } catch (error) {
+      console.error(error);
+    }
 
     localStorage.removeItem("token");
 
@@ -33,13 +30,11 @@ function App() {
 
   return (
     <>
-      <Navbar
-        isLoggedIn={isLoggedIn}
-        handleLogout={handleLogout}
-        loading={loading}
-      />
-
-      {isLoggedIn ? <Dashboard /> : <Login setIsLoggedIn={setIsLoggedIn} />}
+      {isLoggedIn ? (
+        <Dashboard handleLogout={handleLogout} loading={loading} />
+      ) : (
+        <Login setIsLoggedIn={setIsLoggedIn} />
+      )}
     </>
   );
 }
