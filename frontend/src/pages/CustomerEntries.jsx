@@ -19,7 +19,7 @@ export default function CustomerEntries({ customer, onBack }) {
       setLoading(true);
 
       const response = await API.get(
-        `/entries?customer_id=${customer.id}&search=${search}&payment_status=${paymentFilter}&sort_amount=${sortAmount}`,
+        `/entries?customer_id=${customer.id}&search=${search}&payment_status=${paymentFilter}&sort=${sortAmount}`,
       );
 
       setEntries(response.data.data);

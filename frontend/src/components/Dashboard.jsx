@@ -13,7 +13,7 @@ export default function Dashboard({ handleLogout, loading }) {
   const [currentPage, setCurrentPage] = useState("dashboard");
 
   return (
-    <div className="flex bg-gradient-to-br from-black via-slate-950 to-gray-900 min-h-screen">
+    <div className="flex flex-col lg:flex-row bg-gradient-to-br from-black via-slate-950 to-gray-900 min-h-screen">
       {/* SIDEBAR */}
       <Sidebar currentPage={currentPage} setCurrentPage={setCurrentPage} />
 

@@ -23,7 +23,7 @@ export default function RegularCustomers() {
       setLoading(true);
 
       const response = await API.get(
-        `/customers?customer_type=local&search=${search}`,
+        `/customers?customer_type=regular&search=${search}`,
       );
 
       setCustomers(response.data.data);

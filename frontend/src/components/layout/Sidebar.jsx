@@ -8,19 +8,19 @@ export default function Sidebar({ currentPage, setCurrentPage }) {
       page: "dashboard",
     },
     {
-      title: "Local Users",
+      title: "Local Customers",
       icon: <Users size={20} />,
       page: "local",
     },
     {
-      title: "Regular Users",
+      title: "Regular Customers",
       icon: <Building2 size={20} />,
       page: "regular",
     },
   ];
 
   return (
-    <div className="w-[280px] min-h-screen bg-[#0f172a] border-r border-white/10 p-5">
+    <div className="w-full lg:w-[280px] lg:min-h-screen bg-[#0f172a] border-r border-white/10 p-5">
       {/* LOGO */}
       <div className="mb-10">
         <h1 className="text-3xl font-black text-white tracking-wide">SDP</h1>

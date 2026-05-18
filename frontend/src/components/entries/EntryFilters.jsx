@@ -38,9 +38,9 @@ export default function EntryFilters({
       >
         <option value="">Sort Amount</option>
 
-        <option value="asc">Low → High</option>
+        <option value="amount_asc">Low → High</option>
 
-        <option value="desc">High → Low</option>
+        <option value="amount_desc">High → Low</option>
       </select>
     </div>
   );
