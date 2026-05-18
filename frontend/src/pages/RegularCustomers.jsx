@@ -4,9 +4,14 @@ import CustomerTable from "../components/customers/CustomerTable";
 import toast from "react-hot-toast";
 import CustomerModal from "../components/customers/CustomerModal";
 import CustomerEntries from "./CustomerEntries";
+import Pagination from "../components/ui/Pagination";
 
 export default function RegularCustomers() {
   const [customers, setCustomers] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const [lastPage, setLastPage] = useState(1);
 
   const [loading, setLoading] = useState(true);
 
@@ -23,10 +28,12 @@ export default function RegularCustomers() {
       setLoading(true);
 
       const response = await API.get(
-        `/customers?customer_type=regular&search=${search}`,
+        `/customers?customer_type=regular&search=${search}&page=${currentPage}`,
       );
 
       setCustomers(response.data.data);
+      setCurrentPage(response.data.current_page);
+      setLastPage(response.data.last_page);
     } catch (error) {
       console.error(error);
     } finally {
@@ -54,6 +61,10 @@ export default function RegularCustomers() {
 
   useEffect(() => {
     fetchCustomers();
+  }, [search, currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(1);
   }, [search]);
 
   if (selectedCustomer) {
@@ -122,6 +133,12 @@ export default function RegularCustomers() {
         }}
         onDelete={handleDelete}
         onViewEntries={(customer) => setSelectedCustomer(customer)}
+      />
+
+      <Pagination
+        currentPage={currentPage}
+        lastPage={lastPage}
+        onPageChange={setCurrentPage}
       />
 
       <CustomerModal

@@ -5,6 +5,7 @@ import API from "../api/axios";
 import EntryTable from "../components/entries/EntryTable";
 import EntryModal from "../components/entries/EntryModal";
 import EntryFilters from "../components/entries/EntryFilters";
+import Pagination from "../components/ui/Pagination";
 
 export default function CustomerEntries({ customer, onBack }) {
   const [entries, setEntries] = useState([]);
@@ -13,6 +14,8 @@ export default function CustomerEntries({ customer, onBack }) {
   const [search, setSearch] = useState("");
   const [paymentFilter, setPaymentFilter] = useState("all");
   const [sortAmount, setSortAmount] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
 
   const fetchEntries = async () => {
     try {
@@ -21,10 +24,12 @@ export default function CustomerEntries({ customer, onBack }) {
       const response = await API.get(
         `/entries?${
           customer.id ? `customer_id=${customer.id}&` : ""
-        }search=${search}&payment_status=${paymentFilter}&sort=${sortAmount}`,
+        }search=${search}&payment_status=${paymentFilter}&sort=${sortAmount}&page=${currentPage}`,
       );
 
       setEntries(response.data.data);
+      setCurrentPage(response.data.current_page);
+      setLastPage(response.data.last_page);
     } catch (error) {
       console.error(error);
     } finally {
@@ -52,6 +57,10 @@ export default function CustomerEntries({ customer, onBack }) {
 
   useEffect(() => {
     fetchEntries();
+  }, [search, paymentFilter, sortAmount, currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(1);
   }, [search, paymentFilter, sortAmount]);
 
   return (
@@ -93,6 +102,12 @@ export default function CustomerEntries({ customer, onBack }) {
 
       {/* TABLE */}
       <EntryTable entries={entries} loading={loading} onDelete={handleDelete} />
+
+      <Pagination
+        currentPage={currentPage}
+        lastPage={lastPage}
+        onPageChange={setCurrentPage}
+      />
 
       {/* MODAL */}
       <EntryModal
