@@ -16,6 +16,17 @@ class CustomerEntryController extends Controller
         $query = CustomerEntry::with('customer');
 
         /**
+         * Filter by customer id
+         */
+        if ($request->filled('customer_id')) {
+
+            $query->where(
+                'customer_id',
+                $request->customer_id
+            );
+        }
+
+        /**
          * Search by customer name
          */
         if ($request->filled('search')) {

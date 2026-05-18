@@ -87,6 +87,18 @@ export default function RegularCustomers() {
         >
           + Add Regular Customer
         </button>
+
+        <button
+          onClick={() =>
+            setSelectedCustomer({
+              id: null,
+              customer_name: "All Regular Entries",
+            })
+          }
+          className="px-5 py-3 rounded-2xl bg-white/10 text-white border border-white/10 hover:bg-white/20 transition"
+        >
+          View All Entries
+        </button>
       </div>
 
       {/* SEARCH */}
